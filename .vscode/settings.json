@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./pneumonia_detection_app/data/src"
+    ]
+}
