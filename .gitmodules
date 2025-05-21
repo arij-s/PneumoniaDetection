@@ -1,0 +1,3 @@
+[submodule "pneumonia_detection_app/pneumonia_front"]
+	path = pneumonia_detection_app/pneumonia_front
+	url = https://github.com/arij-s/PneumoniaDetection.git
