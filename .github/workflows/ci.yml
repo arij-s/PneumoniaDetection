@@ -1,4 +1,4 @@
-name: Pneumonia Detection CI
+name: Pneumonia Detection CI/CD
 
 on:
   push:
@@ -7,52 +7,49 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.9]  # Updated to Python 3.9 based on your project
+        python-version: ["3.9"]  # Matches your project's Python version
 
     steps:
     - uses: actions/checkout@v3
       with:
-        lfs: true  # Enable Git LFS for model files
+        lfs: true  # For your model files
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
-    
-    - name: Install dependencies
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgl1-mesa-glx  # For OpenCV GUI dependencies
+
+    - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install pytest pytest-cov flake8
-    
+        pip install -r requirements.txt
+        pip install pytest pytest-cov flake8 opencv-python-headless  # Using headless OpenCV
+
     - name: Lint with flake8
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    
-    - name: Test with pytest
-      run: |
-        pytest --cov=./ --cov-report=xml
-    
-    # Only run the app as a verification step if main.py exists
-    - name: Check if main.py exists
-      id: check_files
-      uses: andstor/file-existence-action@v2
-      with:
-        files: "main.py, pneumonia_detection_app/main.py"
+        # Configure flake8 to ignore third-party packages and focus on your code
+        echo -e "[flake8]\nignore = E501,W503\nmax-line-length = 120\nexclude = \n    .git,\n    __pycache__,\n    */site-packages/*,\n    */Lib/*,\n    */.ipynb_checkpoints/*" > .flake8
         
-    - name: Verify application startup
-      if: steps.check_files.outputs.files_exists == 'true'
+        # Strict linting only for your source files
+        flake8 pneumonia_detection_app/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        
+        # General linting with warnings
+        flake8 pneumonia_detection_app/ tests/ --count --exit-zero --max-complexity=15 --statistics
+
+    - name: Run unit tests
       run: |
-        if [ -f "main.py" ]; then
-          python main.py --test-mode || true
-        elif [ -f "pneumonia_detection_app/main.py" ]; then
-          python pneumonia_detection_app/main.py --test-mode || true
-        fi
+        pytest tests/ --cov=pneumonia_detection_app --cov-report=xml --verbose
+
+    - name: Verify application startup
+      run: |
+        python pneumonia_detection_app/main.py --test-mode --no-gui
