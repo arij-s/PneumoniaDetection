@@ -1,0 +1,29 @@
+# Core dependencies
+numpy>=1.20.0
+opencv-python>=4.5.0
+scikit-image>=0.18.0
+scikit-learn>=1.0.0
+matplotlib>=3.4.0
+seaborn>=0.11.0
+pandas>=1.3.0
+joblib>=1.0.0
+tqdm>=4.60.0
+
+# Web application
+Flask>=2.0.0
+Werkzeug>=2.0.0
+
+# Testing
+pytest>=6.0.0
+
+# Cache management
+memory-profiler>=0.58.0
+
+# Parallelization
+joblib>=1.0.0
+
+# Path handling
+pathlib>=1.0.0
+
+# Type annotations
+typing-extensions>=4.0.0
