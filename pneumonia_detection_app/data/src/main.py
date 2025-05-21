@@ -9,7 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from features.extraction import FeatureExtractor
 
-app = Flask(__name__,static_folder='../../../app_ui/build',static_url_path='/')
+app = Flask(__name__,static_folder='../../static',static_url_path='/')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
