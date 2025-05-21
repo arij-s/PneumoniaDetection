@@ -9,7 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from features.extraction import FeatureExtractor
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='../../../app_ui/build',static_url_path='/')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
@@ -85,6 +85,10 @@ def get_best_model():
     app.logger.info(f"Selected model: {best_model['model_name']} (Recall: {best_model['recall']})")
     
     return joblib.load(best_model['path']), best_model['model_name'], best_model['recall']
+
+@app.route('/')
+def home():
+    return send_from_directory(app.static_folder,'index.html')
 
 @app.route('/api/predict', methods=['POST'])
 def predict():
