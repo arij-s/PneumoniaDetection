@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9"]  # Matches your environment.yml
+        python-version: ["3.9"]
 
     steps:
     - uses: actions/checkout@v3
       with:
-        lfs: true  # For your model files
+        lfs: true
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
@@ -27,15 +27,13 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libgl1 libglx0 libegl1  # Modern OpenGL alternatives
-        sudo apt-get install -y python3-dev  # Required for some Python packages
+        sudo apt-get install -y libgl1 libglx0 libegl1 python3-dev
 
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        # Install OpenCV headless first to avoid GUI dependencies
+        pip install flake8  # Make sure flake8 is installed
         pip install opencv-python-headless==4.5.5.64
-        # Install remaining packages from conda-forge equivalents
         pip install \
           numpy==1.20.0 \
           scikit-image==0.18.0 \
@@ -55,9 +53,12 @@ jobs:
           json5==0.9.6 \
           unittest2==1.1.0
 
-    - name: Lint with flake8
+    - name: Configure flake8
       run: |
         echo -e "[flake8]\nignore = E501,W503\nmax-line-length = 120\nexclude = \n    .git,\n    __pycache__,\n    */site-packages/*" > .flake8
+
+    - name: Run flake8 linting
+      run: |
         flake8 pneumonia_detection_app/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 pneumonia_detection_app/ tests/ --count --exit-zero --max-complexity=15 --statistics
 
