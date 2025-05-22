@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from skimage.feature import local_binary_pattern, hog
 from joblib import Memory
-from config.paths import CACHE_DIR
+from pneumonia_detection_app.data.src.config.paths import CACHE_DIR
 
 memory = Memory(CACHE_DIR, verbose=0)
 
