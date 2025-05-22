@@ -1,0 +1,2 @@
+Pipeline completed in 850.28 seconds
+Best model: RandomForest

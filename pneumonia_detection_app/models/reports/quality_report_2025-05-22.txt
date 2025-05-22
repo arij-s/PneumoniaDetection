@@ -1,0 +1,23 @@
+
+        DATA QUALITY REPORT
+        ========================================
+        Generated: 2025-05-22 00:22:00.358899
+        
+        CLEANING STATISTICS:
+        - Duplicates removed: 32
+        - Low quality removed: 0
+        - Corrupted removed: 0
+        
+        DATASET COUNTS:
+        Before Cleaning:
+        train/PNEUMONIA    3418
+train/NORMAL       1266
+test/PNEUMONIA      855
+test/NORMAL         317
+        
+        After Cleaning:
+        train/PNEUMONIA    1266
+train/NORMAL       1266
+test/PNEUMONIA      317
+test/NORMAL         317
+        

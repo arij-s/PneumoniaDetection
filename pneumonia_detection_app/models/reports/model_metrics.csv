@@ -1,0 +1,11 @@
+model,accuracy,precision,recall,f1_score,auc,average_precision,model_object
+RandomForest,0.88801261829653,0.8993506493506493,0.8738170347003155,0.8864,0.9543183831066088,0.9603068677783271,"RandomForestClassifier(max_depth=20, max_features='log2', n_jobs=1,
+                       random_state=42)"
+MLP,0.8753943217665615,0.9047619047619048,0.8391167192429022,0.8707037643207856,0.947984356496731,0.9545170981845492,"Pipeline(steps=[('scaler', StandardScaler()),
+                ('mlp',
+                 MLPClassifier(alpha=0.01, early_stopping=True,
+                               hidden_layer_sizes=(100, 50),
+                               random_state=42))])"
+AdaBoost,0.8832807570977917,0.900990099009901,0.861198738170347,0.8806451612903226,0.9558459134830678,0.9579901364055726,"AdaBoostClassifier(n_estimators=100, random_state=42)"
+ExtraTrees,0.8801261829652997,0.9003322259136213,0.8548895899053628,0.8770226537216829,0.9531640279035516,0.9577597114897082,"ExtraTreesClassifier(class_weight='balanced', max_depth=20, min_samples_split=5,
+                     n_jobs=1, random_state=42)"
