@@ -14,7 +14,7 @@ except ImportError:
     # For production (Render)
     from pneumonia_detection_app.data.src.features.extraction import FeatureExtractor
 
-app = Flask(__name__,static_folder='../../static',static_url_path='/')
+app = Flask(__name__,static_folder='../../static',static_url_path='')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
