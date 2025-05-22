@@ -7,7 +7,12 @@ import numpy as np
 import joblib
 from datetime import datetime
 from pathlib import Path
-from features.extraction import FeatureExtractor
+try:
+    # For local development
+    from features.extraction import FeatureExtractor
+except ImportError:
+    # For production (Render)
+    from pneumonia_detection_app.data.src.features.extraction import FeatureExtractor
 
 app = Flask(__name__,static_folder='../../static',static_url_path='/')
 app.config['UPLOAD_FOLDER'] = 'uploads'
